@@ -1,1 +1,1 @@
-from geojseq.core import open
+from geojseq.core import FeatureStream

@@ -4,6 +4,62 @@ import os
 import sys
 
 
+class Feature(dict):
+
+    """Lightweight representation of a GeoJSON feature."""
+
+    def __init__(self, id, type, properties, geometry):
+        self._id = id
+        self._type = type
+        self._properties = properties
+        if isinstance(geometry, Geometry):
+            self._geometry = geometry
+        else:
+            self._geometry = Geometry(**geometry)
+
+        super(Feature, self).__init__(
+            id=self._id,
+            type=self._type,
+            properties=self._properties,
+            geometry=self._geometry
+        )
+
+    @property
+    def id(self):
+        return self._id
+
+    @property
+    def type(self):
+        return self._type
+
+    @property
+    def properties(self):
+        return self._properties
+
+    @property
+    def geometry(self):
+        return self._geometry
+
+
+class Geometry(dict):
+
+    """Lightweight representation of a GeoJSON geometry."""
+
+    def __init__(self, type, coordinates):
+        self._type = type
+        self._coordinates = coordinates
+        super(Geometry, self).__init__(type=self._type, coordinates=self._coordinates)
+
+    @property
+    def type(self):
+        return self._type
+
+    @property
+    def coordinates(self):
+        return self.coordinates
+
+
+
 class FeatureStream(object):
 
     """
@@ -65,7 +121,7 @@ class FeatureStream(object):
         if self._use_rs:
             line = line.strip(u'\x1e')
 
-        return json.loads(line)
+        return Feature(**json.loads(line))
 
     next = __next__
 
