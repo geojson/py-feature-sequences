@@ -4,35 +4,6 @@ import os
 import sys
 
 
-def open(path, mode='r', **kwargs):
-
-    """
-    Open a file containing GeoJSON feature sequences.
-
-    Parameters
-    ----------
-    path : str
-        Path to file to open.  use '-' for stdin and stdout.
-    mode : str, optional
-        Read, write, or append data with r, w, and a.
-    kwargs : **kwargs, optional
-        Additional keyword arguments for `FeatureStream()`.
-
-    Returns
-    -------
-    FeatureStream
-    """
-
-    if path == '-' and mode == 'r':
-        f = sys.stdin
-    elif path == '-' and mode in ('w', 'a'):
-        f = sys.stdout
-    else:
-        f = codecs_open(path, mode=mode, encoding='utf-8')
-
-    return FeatureStream(f, mode=mode, **kwargs)
-
-
 class FeatureStream(object):
 
     """
